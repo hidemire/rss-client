@@ -4,9 +4,10 @@
   "description": "A minimal Electron application written with Typescript",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w",
+    "watch": "concurrently -k -n TS,ELECTRON 'tsc -w' 'electron ./dist/main.js'",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "start": "npm run build && electron ./dist/main.js"
+    "start": "npm run build && electron ./dist/main.js",
+    "electron": "electron ./src/main.ts"
   },
   "repository": "https://github.com/electron/electron-quick-start-typescript",
   "keywords": [
@@ -20,8 +21,14 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
+    "concurrently": "^5.0.0",
     "electron": "^6.0.8",
+    "electron-reload": "^1.5.0",
     "tslint": "^5.19.0",
     "typescript": "^3.6.0"
+  },
+  "dependencies": {
+    "inversify": "^5.0.1",
+    "reflect-metadata": "^0.1.13"
   }
 }
