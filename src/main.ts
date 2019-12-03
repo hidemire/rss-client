@@ -21,6 +21,11 @@ function createWindow() {
   mainWindow.on("closed", () => {
     mainWindow = null;
   });
+
+  mainWindow.on("new-window-for-tab", function(event, url){
+    event.preventDefault();
+    open(url);
+  });
 }
 
 app.on("ready", createWindow);
