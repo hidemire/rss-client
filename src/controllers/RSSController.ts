@@ -3,8 +3,11 @@ import { inject, injectable } from "inversify";
 import { isArray } from "util";
 import * as xmlParser from "xml-js";
 
+import { remote } from "electron";
 import News from "../models/News";
 import MainView from "../views";
+
+const { dialog } = remote;
 
 @injectable()
 export default class RSSController {
@@ -21,9 +24,16 @@ export default class RSSController {
   public setup(): void {
     this.mainView.on("onFileSelect", (file) => {
       this.file = file;
-      this.XMLFIle = fs.readFileSync(file.path);
-      this.jsRSS = xmlParser.xml2js(this.XMLFIle.toString(), { compact: true });
-      this.news = this.getAllNews(this.jsRSS);
+      this.news = [];
+
+      try {
+        this.XMLFIle = fs.readFileSync(file.path);
+        this.jsRSS = xmlParser.xml2js(this.XMLFIle.toString(), { compact: true });
+        this.news = this.getAllNews(this.jsRSS);
+      } catch (error) {
+        dialog.showMessageBoxSync({ type: "warning", message: "Помилка зчитування файлу" });
+      }
+
       this.mainView.renderNews(this.news);
     });
 
