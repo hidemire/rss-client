@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "inversify": "^5.0.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "popper.js": "^1.16.0",
     "reflect-metadata": "^0.1.13",
     "xml-js": "^1.6.11"
